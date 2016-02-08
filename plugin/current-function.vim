@@ -18,7 +18,7 @@ class_regex = re.compile(r'class:([^ \t]+)')
 for t in tags.split("\n"):
   m = tagline_regex.match(t)
   if m:
-    if m.group(4) == "f":
+    if m.group(4) == "f": or m.group(4) == "m":
       l = int(m.group(3))
 
       class_match = class_regex.search(m.group(5))
