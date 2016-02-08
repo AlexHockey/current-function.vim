@@ -34,12 +34,12 @@ vim.command("let b:tags = '%s'" % table_str)
 EOF
 endfunction
 
-function! GetTagUnderCursor()
-  let name = GetTagName(line("."))
+function! GetFunctionUnderCursor()
+  let name = GetFunctionName(line("."))
   return name
 endfunction
 
-function! GetTagName(curline)
+function! GetFunctionName(curline)
   if !exists("b:tags")
     return ''
   endif
