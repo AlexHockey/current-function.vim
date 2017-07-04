@@ -15,17 +15,18 @@ table = []
 tagline_regex = re.compile(r'([^\t]*)\t([^\t]*)\t(\d+);"\t([^\t]*)\t?(.+)?')
 class_regex = re.compile(r'class:([^ \t]+)')
 
-for t in tags.split("\n"):
+tag_list = tags.split("\n")
+for t in tag_list:
   m = tagline_regex.match(t)
   if m:
     if m.group(4) == "f" or m.group(4) == "m":
       l = int(m.group(3))
 
-      class_match = class_regex.search(m.group(5))
-      if class_match:
-        name = class_match.group(1) + "::" + m.group(1)
-      else:
-        name = m.group(1)
+      try:
+          class_match = class_regex.search(m.group(5))
+          name = class_match.group(1) + "::" + m.group(1)
+      except:
+          name = m.group(1)
 
       table.append((l, name))
 
