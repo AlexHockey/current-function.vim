@@ -1,5 +1,5 @@
 function! IndexFile()
-python << EOF
+python3 << EOF
 import vim, os, re, subprocess
 tags = subprocess.check_output([
   'ctags',
@@ -15,8 +15,9 @@ table = []
 tagline_regex = re.compile(r'([^\t]*)\t([^\t]*)\t(\d+);"\t([^\t]*)\t?(.+)?')
 class_regex = re.compile(r'class:([^ \t]+)')
 
-tag_list = tags.split("\n")
+tag_list = tags.split(b"\n")
 for t in tag_list:
+  t = t.decode("utf-8")
   m = tagline_regex.match(t)
   if m:
     if m.group(4) == "f" or m.group(4) == "m":
@@ -44,7 +45,7 @@ function! GetFunctionName(curline)
   if !exists("b:tags")
     return ''
   endif
-python << EOF
+python3 << EOF
 import vim
 
 line = int(vim.eval("a:curline"))
@@ -53,9 +54,9 @@ found = ''
 
 if table_str:
   table_iter = table_str.split(',')
-  table = zip(map(int, table_iter[::2]), table_iter[1::2])
+  table = list(zip(map(int, table_iter[::2]), table_iter[1::2]))
 
-  for ix in xrange(len(table)):
+  for ix in range(len(table)):
     if line >= table[ix][0]:
 
       if (ix+1 >= len(table)) or (line < table[ix+1][0]):
